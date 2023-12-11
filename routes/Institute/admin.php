@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Institue\Authentication\AuthenticationController;
+use App\Http\Controllers\Institue\CourseManagement\CourseCategoriesController;
+use App\Http\Controllers\Institue\CourseManagement\CourseControler;
 use App\Http\Controllers\Institue\UserManagement\PermissionController;
 use App\Http\Controllers\Institue\UserManagement\RoleController;
 use Illuminate\Support\Facades\Route;
@@ -31,5 +33,22 @@ Route::prefix('role')->group(function () {
     Route::post('create-role-group',[RoleController::class,'createRoleGroup']);
     Route::post('update-role-group',[RoleController::class,'updateRoleGroup']);
     Route::post('delete-role-group',[RoleController::class,'deleteRoleGroup']);
+
+});
+
+
+Route::prefix('course-categories')->group(function () {
+    Route::post('create',[CourseCategoriesController::class,'create']);
+    Route::post('update',[CourseCategoriesController::class,'update']);
+
+});    
+
+Route::prefix('courses')->group(function(){
+    Route::post('create',[CourseControler::class,'create']);
+    Route::post('update',[CourseControler::class,'update']);
+    Route::post('list-by-id',[CourseControler::class,'listById']);
+    Route::post('show',[CourseControler::class,'show']);
+
+
 
 });
