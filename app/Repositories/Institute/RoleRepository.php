@@ -254,7 +254,7 @@ class RoleRepository implements BaseRepositoryInterface
             }
 
             // Change variable name from $user to $role
-            $role = Role::find($id)->where('is_deleted', 'no')->where('is_active', 'yes')->first();
+            $role = RoleGroup::find($id)->where('is_deleted', 'no')->first();
 
             if (!$role) {
                 DB::rollBack();

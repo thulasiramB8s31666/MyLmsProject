@@ -74,4 +74,15 @@ class CourseCategoriesRepository implements BaseRepositoryInterface
             return ["status" => false, "message" => $e->getMessage()];
         }
     }
+
+
+    public function showAll(){
+        try{
+            $list = CourseCategory::get();
+            return ["status" => true, "message" => $list];
+        }
+        catch (Exception $e) {
+            return ["status" => false, "message" => $e->getMessage()];
+        }
+    }
 }

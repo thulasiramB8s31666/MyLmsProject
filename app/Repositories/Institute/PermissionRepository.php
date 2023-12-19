@@ -29,6 +29,12 @@ class PermissionRepository implements BaseRepositoryInterface
                 DB::rollBack();
                 return ["status" => false, "message" => "name is mandatory"];
             }
+
+            $select = Permission::where('screen',$screen)->where('module',$module)->where('name',$name)->first();
+            
+            if($select){
+                return ["status" => false, "message" => "permission already exist"];                
+            }
           
             $createPermission = Permission::create([
                 'screen' => $screen,

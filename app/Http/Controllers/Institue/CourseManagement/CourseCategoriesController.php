@@ -50,4 +50,8 @@ class CourseCategoriesController extends Controller
     }
 
 
+    public function showAll(Request $req){
+        return $this->repo->showAll();
+    }
+
 }

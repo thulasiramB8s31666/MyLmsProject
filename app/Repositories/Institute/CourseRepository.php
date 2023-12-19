@@ -62,14 +62,14 @@ class CourseRepository implements BaseRepositoryInterface
         try {
             if (!$course_id) {
                 return ["status" => false, "message" => 'course id is mandatory'];
-            }          
+            }
 
             $updateData = [];
-            if($course_id){
-              $course =  Course::where('course_id',$course_id)->first();
-              if(!$course){
-                return ["status" => false, "message" => 'course not found'];                
-              }
+            if ($course_id) {
+                $course =  Course::where('course_id', $course_id)->first();
+                if (!$course) {
+                    return ["status" => false, "message" => 'course not found'];
+                }
             }
 
             if ($filePath) {
@@ -100,39 +100,36 @@ class CourseRepository implements BaseRepositoryInterface
         }
     }
 
-public function listById($id){
-    DB::beginTransaction();
-    try{
-        if(!$id){
+    public function listById($id)
+    {
+        DB::beginTransaction();
+        try {
+            if (!$id) {
+                DB::rollBack();
+                return ["status" => false, "message" => "Id is mandatory"];
+            }
+            $course = Course::where('id', $id)->where('is_deleted', 'no')->get();
+
+            if ($course->isEmpty()) {
+                DB::rollBack();
+                return ["status" => false, "message" => "Id is not found from Courses table"];
+            }
+            return ["status" => true, "data" => [$course], "message" => "Course Data displayed by id"];
+        } catch (Exception $th) {
             DB::rollBack();
-            return ["status"=>false,"message"=>"Id is mandatory"];
+            return ["status" => false, "message" => $th->getMessage()];
         }
-        $course=Course::where('id', $id)->where('is_deleted', 'no')->get();
-        
-        if ($course->isEmpty()) {
+    }
+
+    public function show()
+    {
+        DB::beginTransaction();
+        try {
+            $course = Course::get();
+            return ["status" => true, "data" => [$course], "message" => "Course datas displayed successfully "];
+        } catch (Exception $th) {
             DB::rollBack();
-            return ["status" => false, "message" => "Id is not found from Courses table"];
+            return ["status" => false, "message" => $th->getMessage()];
         }
-         return ["status"=>true, "data"=>[$course], "message"=>"Course Data displayed by id"];
     }
-    catch(Exception $th){
-        DB::rollBack();
-        return ["status"=>false, "message"=>$th->getMessage()];
-
-    }
-}
-
-public function show(){
-    DB::beginTransaction();
-    try{
-        $course=Course::get();
-        return ["status"=>true, "data"=>[$course], "message"=>"Course datas displayed successfully "];
-
-    }
-    catch(Exception $th){
-        DB::rollBack();
-        return ["status"=>false, "message"=>$th->getMessage()];
-    }
-}
-
 }

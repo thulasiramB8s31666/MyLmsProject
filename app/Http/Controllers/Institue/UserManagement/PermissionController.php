@@ -26,7 +26,7 @@ class PermissionController extends Controller
         $module = $request->input('module');
         $name = $request->input('name');
         $type = $request->input('type');
-        $this->repo->permissionCreate($screen,$module,$name,$type);
+        return $this->repo->permissionCreate($screen,$module,$name,$type);
      
     }
 
@@ -36,13 +36,13 @@ class PermissionController extends Controller
         $screen = $request->input('screen');
         $module = $request->input('module');
         $name = $request->input('name');
-        $this->repo->permissionUpdate($id,$screen,$module,$name);     
+        return $this->repo->permissionUpdate($id,$screen,$module,$name);     
     }
 
     public function deletePermission(Request $request){
         Log::warning($request);
         $id = $request->input('id');
-        $this->repo->permissionDelete($id);
+        return $this->repo->permissionDelete($id);
       
     }
 
