@@ -34,6 +34,12 @@ class InstituteCourseRepository implements BaseRepositoryInterface
             if (!$Course) {
                 return ["status" => false, "message" => 'course_id is not found'];
             }
+
+            $InstitiuteCourse = InstituteCourse::where('course_id', $req['course_id'])->first();
+
+            if ($InstitiuteCourse) {
+                return ["status" => false, "message" => 'course already exist'];
+            }
             // $academic_username ="COUCATID";
             $Prefix = "INS_COU_ID"; // Assuming $username is a property of the model
             $newId = self::generateUniqueAcademicFaqModuleId($Prefix);

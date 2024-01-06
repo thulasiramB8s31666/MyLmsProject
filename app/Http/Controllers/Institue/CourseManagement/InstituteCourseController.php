@@ -28,15 +28,15 @@ class InstituteCourseController extends Controller
     {
 
         try {
-            $validate = Validator::make($req->all(), [
-                'institute_id' => 'required',
-                'course_id' => 'required',
-                'title' => 'required|unique:institute_courses,title',
-                'overview' => 'required|unique:institute_courses,overview',
-                'description' => 'required|unique:institute_courses,description',
-            ]);
+            // $validate = Validator::make($req->all(), [
+            //     'institute_id' => 'required',
+            //     'course_id' => 'required',
+            //     'title' => 'required|unique:institute_courses,title',
+            //     'overview' => 'required|unique:institute_courses,overview',
+            //     'description' => 'required|unique:institute_courses,description',
+            // ]);
 
-            $validate->validate();
+            // $validate->validate();
 
             $logoPath = "assets/institute/institutecourses/images";
             $filePath = "";

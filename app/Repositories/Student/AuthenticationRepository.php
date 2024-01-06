@@ -1,8 +1,10 @@
 <?php
 namespace App\Repositories\Student;
 
+use App\Models\InstituteStudent;
 use App\Models\Staff;
 use App\Models\Student;
+use App\Models\StudentCourse;
 use App\Models\User;
 use App\Repositories\BaseRepositoryInterface;
 use Exception;
@@ -275,4 +277,137 @@ class AuthenticationRepository implements BaseRepositoryInterface
     }
 
 
+
+
+
+
+
+
+
+
+
+    public function instituteStudentCreate($req){
+        try{
+            $existingRecord = InstituteStudent::where('student_id', $req['student_id'])
+            ->where('institute_id', $req['institute_id'])
+            ->first();
+
+        if ($existingRecord) {
+            return ["status" => false, "message" => "Record already exists for student_id and institute_id"];
+        }
+            $create = InstituteStudent::create([
+                "student_id" => $req['student_id'],
+                "institute_id" => $req['institute_id']
+            ]);
+            return ["status" => true, "data" => $create, "message" => "created successfully"];
+              
+        }catch (Exception $e) {
+            return ["status" => false, "message" => $e->getMessage() ];
+        }
+    }
+
+    public function instituteStudentUpdate($req){
+        try{
+            $existingRecord = InstituteStudent::where('student_id', $req['student_id'])
+            ->where('institute_id', $req['institute_id'])
+            ->first();
+
+        if ($existingRecord) {
+            return ["status" => false, "message" => "Record already exists for student_id and institute_id"];
+        }
+           $update =[];
+           if(isset($req['student_id'])){
+            $update['student_id'] = $req['student_id'];
+           } 
+           if(isset($req['institute_id'])){
+            $update['institute_id'] = $req['institute_id'];
+           } 
+        
+           $up = InstituteStudent::where('id',$req['id'])->update($update);
+           return ["status" => true, "data" => $up, "message" => "updated successfully"];
+
+        }catch (Exception $e) {
+            return ["status" => false, "message" => $e->getMessage() ];
+        }
+    }
+
+
+    public function instituteStudentlistById($req){
+        try{
+            $get = InstituteStudent::where('id',$req['id'])->get();
+            return ["status" => true, "data" => $get, "message" => "updated successfully"];
+        }catch (Exception $e) {
+            return ["status" => false, "message" => $e->getMessage() ];
+        }
+    }
+
+    public function instituteStudentGetAll(){
+        try{
+            $get = InstituteStudent::all();
+            return ["status" => true, "data" => $get, "message" => "listed successfully"];
+        }catch (Exception $e) {
+            return ["status" => false, "message" => $e->getMessage() ];
+        }
+    }
+
+
+
+
+
+
+    public function studentCourseCreate($req){
+        try{
+            $teacherCourseCreate = StudentCourse::create([
+                 'student_id' => $req['student_id'],
+                 'institute_course_id' => $req['institute_course_id'],
+                 'batch_id' => $req['batch_id'],
+            ]);
+            return ["status" => false, "message" => 'creatated successfully' ];
+
+        }catch (Exception $e) {
+            return ["status" => false, "message" => $e->getMessage() ];
+        }
+    }
+
+
+
+    public function studentCourseUpdate($req){
+        try{
+            $update =[];
+            if(isset($req['student_id'])){
+                $update['student_id'] = $req['student_id'];
+            }
+            if(isset($req['institute_course_id'])){
+                $update['institute_course_id'] = $req['institute_course_id'];
+            }
+
+            if(isset($req['batch_id'])){
+                $update['batch_id'] = $req['batch_id'];
+            }
+            $up = StudentCourse::where('id',$req['id'])->update($update);
+
+            return ["status" => true, "data" => $up, "message" => "updated successfully"];
+
+        }catch (Exception $e) {
+            return ["status" => false, "message" => $e->getMessage() ];
+        }
+    }
+
+
+
+    public function studentCourseListById($req){
+        try{
+            $get = StudentCourse::where('id',$req['id'])->get();
+            return ["status" => true, "data" => $get, "message" => "updated successfully"];
+        }catch (Exception $e) {
+            return ["status" => false, "message" => $e->getMessage() ];
+        }
+    }
+
+
+
+    public function studentCourseGetAll(){
+        $all = StudentCourse::all();
+        return ["status" =>true , "data"=> $all , "message listed all successfully"];
+    }
 }    

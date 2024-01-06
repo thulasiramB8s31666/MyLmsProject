@@ -71,4 +71,11 @@ class VideoManagementController extends Controller
     public function showAll(Request $req){
         return $this->repo->showAll();
     }
+
+
+    public function statusUpdate(Request $req){
+        $status = $req->input('status');
+        $id = $req->input('id');
+        return $this->repo->statusUpdate($status,$id);
+    }
 }

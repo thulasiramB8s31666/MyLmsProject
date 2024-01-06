@@ -148,4 +148,7 @@ class AuthenticationController extends Controller
         return $this->repo->resetPassword($id,$pass,$c_pass);                    
     }
 
+
+
+    
 }

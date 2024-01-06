@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student\Authentication;
 use App\Http\Controllers\Controller;
 use App\Repositories\ImageRepository;
 use App\Repositories\Student\AuthenticationRepository;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -123,4 +124,131 @@ class AuthenticationController extends Controller
     }
 
 
+
+
+
+    public function instituteStudentCreate(Request $req){
+        try{
+            $validate = Validator::make($req->all(),[
+                'student_id' => 'required|exists:students',
+                'institute_id' => 'required|exists:institutes'
+            ]);
+            $validate->validate();
+
+            return $this->repo->instituteStudentCreate($req->all());
+
+        }catch(ValidationException $e){
+            return["status" => false , "message" => $e->errors()];
+        }catch(Exception $e){
+            return["status" => false , "message" => $e->getMessage()];
+        }
+    }
+
+
+    public function instituteStudentUpdate(Request $req){
+        try{
+            $validate = Validator::make($req->all(),[
+                'id' => 'required|exists:institute_students',
+                'student_id' => 'required|exists:students',
+                'institute_id' => 'nullable|exists:institutes',
+
+            ]);
+            $validate->validate();
+
+            return $this->repo->instituteStudentUpdate($req->all());
+
+        }catch(ValidationException $e){
+            return["status" => false , "message" => $e->errors()];
+        }catch(Exception $e){
+            return["status" => false , "message" => $e->getMessage()];
+        }
+    }
+
+
+    public function instituteStudentlistById(Request $req){
+        try{
+            $validate = Validator::make($req->all(),[
+                'id' => 'required|exists:institute_students'
+            ]);
+            $validate->validate();
+            return $this->repo->instituteStudentlistById($req->all());
+        }catch(ValidationException $e){
+            return["status" => false , "message" => $e->errors()];
+        }catch(Exception $e){
+            return["status" => false , "message" => $e->getMessage()];
+        }
+    }
+
+
+
+    public function instituteStudentGetAll(){
+        return $this->repo->instituteStudentGetAll();
+    }
+
+
+
+
+
+
+
+    public function studentCourseCreate(Request $req){
+        try{
+            $validate = Validator::make($req->all(),[
+                'student_id' =>'required|exists:students',
+                'institute_course_id' =>'required|exists:institute_courses',
+                'batch_id' => 'required|exists:institute_course_batches'
+            ]);
+            $validate->validate();
+            return $this->repo->studentCourseCreate($req->all());
+
+        }catch(ValidationException $e){
+            return["status" => false , "message" =>$e->errors()];
+        }catch(Exception $e){
+            return["status" => false , "message" => $e->getMessage()];
+        }
+    }
+
+
+
+    public function studentCourseUpdate(Request $req){
+        try{
+            $validate = Validator::make($req->all(), [
+                'id' => 'required|exists:student_courses',
+                'student_id' =>'nullable|exists:students',
+                'institute_course_id' => 'nullable|exists:institute_courses',
+                'batch_id' => 'nullable|exists:institute_course_batches'
+
+            ]);            
+
+            $validate ->validate();
+            return $this->repo->studentCourseUpdate($req->all());
+
+        }catch(ValidationException $e){
+            return["status" => false , "message" =>$e->errors()];
+        }catch(Exception $e){
+            return["status" => false , "message" => $e->getMessage()];
+        }
+    }
+
+
+    public function studentCourseListById(Request $req){
+        try{
+            $validate = Validator::make($req->all(), [
+                'id' => 'required|exists:student_courses',
+                'student_id' => 'nullable|exists:student',
+            ]);            
+
+            $validate ->validate();
+            return $this->repo->studentCourseListById($req->all());
+
+        }catch(ValidationException $e){
+            return["status" => false , "message" =>$e->errors()];
+        }catch(Exception $e){
+            return["status" => false , "message" => $e->getMessage()];
+        }
+    }
+
+    public function studentCourseGetAll(Request $req){
+        return $this->repo->studentCourseGetAll();
+    }
 }

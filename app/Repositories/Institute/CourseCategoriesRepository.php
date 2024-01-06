@@ -85,4 +85,30 @@ class CourseCategoriesRepository implements BaseRepositoryInterface
             return ["status" => false, "message" => $e->getMessage()];
         }
     }
+
+
+
+    public function statusUpdate($status, $id)
+    {
+        try {
+            if (!$id) {
+                return ["status" => false, "message" => "ID is mandatory"];
+            }
+
+            if (!$status) {
+                return ["status" => false, "message" => "Status is mandatory"];
+            }
+
+            $select = CourseCategory::where('id', $id)->update(['is_deleted' => $status]);
+            // Log::warning($select);
+
+            if (!$select) {
+                return ["status" => false, "message" => "ID is invalid"];
+            }
+
+            return ["status" => true, "data" => "Status Updated Successfully"];
+        } catch (Exception $e) {
+            return ["status" => false, "message" => $e->getMessage()];
+        }
+    }
 }

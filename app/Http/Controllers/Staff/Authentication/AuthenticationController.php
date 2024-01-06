@@ -117,4 +117,13 @@ class AuthenticationController extends Controller
         $c_pass = $req->input('c_pass');
         return $this->repo->resetPassword($id,$pass,$c_pass);                    
     }
+
+
+    // public function staffUpdate(Request $req){
+      
+    //     $validator = Validator::make($req->all(),[
+    //         'staff_id' => 'required',
+    //     ]);
+    //     return $this->repo->staffUpdate($req->all());
+    // }
 }

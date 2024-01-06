@@ -54,4 +54,11 @@ class CourseCategoriesController extends Controller
         return $this->repo->showAll();
     }
 
+
+    public function statusUpdate(Request $req){
+        $status = $req->input('status');
+        $id = $req->input('id');
+        return $this->repo->statusUpdate($status,$id);
+    }
+
 }

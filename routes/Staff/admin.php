@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Staff\Authentication\AuthenticationController;
+use App\Http\Controllers\Staff\StaffManagement\StaffController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('staffRegister',[AuthenticationController::class,'staffRegister']);
@@ -11,3 +12,7 @@ Route::post('passwordResetVerifyotp',[AuthenticationController::class,'passwordR
 Route::post('resetPassword',[AuthenticationController::class,'resetPassword']);
 
 
+
+Route::prefix('staff')->group(function(){
+    Route::post('update',[StaffController::class,'update']);
+});

@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories\Staff;
 
+use App\Models\InstituteTeacher;
 use App\Models\Staff;
 use App\Models\User;
 use App\Repositories\BaseRepositoryInterface;
@@ -33,6 +34,8 @@ class AuthenticationRepository implements BaseRepositoryInterface
         ]);
         DB::commit();
 
+
+
         $academicPrefix = "STAFFID";
         $newId = self::generateUniqueAcademicId($academicPrefix);
 
@@ -55,6 +58,13 @@ class AuthenticationRepository implements BaseRepositoryInterface
             'specialization' => isset($request['specialization']) ? $request['specialization'] : null,
         ]);
       
+
+        $staff_id = $staff->staff_id;
+
+        $institute_teachers = InstituteTeacher::create([
+            'institute_id' =>$request['institute_id'],
+            'staff_id' => $staff_id
+        ]);
 
 
 
